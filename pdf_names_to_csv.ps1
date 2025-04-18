@@ -1,10 +1,11 @@
 $fileName = ".\projekty.csv"
+$regex = "007 - Leon|20220422_Archive"
 
 # Stworzenie/wyczyszczenie pliku
 Out-File -FilePath $fileName
 
-# Iteracja po wszystkich podkatalogach rekurencyjnie
-Get-ChildItem -Path "." -Directory -Recurse | ForEach-Object {
+# Iteracja po wszystkich podkatalogach rekurencyjnie, z wyłączeniem tych pasujących do regexu
+Get-ChildItem -Path "." -Directory -Recurse | Where-Object { $_.FullName -cnotmatch $regex } | ForEach-Object {
     # Tablica z nazwami wszystkich PDFów w danym podkatalogu
     $pdfs = (Get-ChildItem -Path $_.FullName *.pdf).Basename
 
